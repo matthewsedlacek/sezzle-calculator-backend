@@ -1,3 +1,3 @@
 class Message < ApplicationRecord
-    validates :message_text, length: { maximum: 18 }
+    validates :message_text, length: { maximum: 30 }
 end
