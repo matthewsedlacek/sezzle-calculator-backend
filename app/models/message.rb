@@ -1,3 +1,5 @@
 class Message < ApplicationRecord
-    validates :message_text, length: { maximum: 30 }
+    include ActiveModel::Conversion
+    extend  ActiveModel::Naming
+    # validates :message_text, length: { maximum: 30 }
 end

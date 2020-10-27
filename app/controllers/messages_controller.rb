@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
 
     def create
         message = Message.create(message_params)
-        render json: MessageSerializer.new(message)
+        render json: message
     end
 
     def edit
@@ -19,14 +19,10 @@ class MessagesController < ApplicationController
         render json: MessageSerializer.new(message)
     end
 
-    def destroy
-        message = Message.find(params[:id])
-        company.destroy
-        render json: {info: "Deleted"}
-    end
+
 
     private
     def message_params
-        params.require(:company).permit(:message_text, :username)
+        params.require(:message).permit(:message_text, :username)
     end
 end
