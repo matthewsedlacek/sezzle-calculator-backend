@@ -4,22 +4,17 @@ class MessagesController < ApplicationController
         render json: messages
     end
     
-    def show
-        message = Message.find_by(id: params[:id])
-        render json: MessageSerializer.new(message)
-    end
-
     def create
-        message = Message.create(message_params)
-        render json: message
+        message = Message.new(message_params)
+        if message.save
+            serialized_data = ActiveModelSerializers::Adapter::Json.new(
+                MessageSerializer.new(message)
+              ).serializable_hash
+              ActionCable.server.broadcast 'messages_channel', serialized_data
+              head :ok
+            # render json: message
+        end
     end
-
-    def edit
-        message = Message.update(message_params)
-        render json: MessageSerializer.new(message)
-    end
-
-
 
     private
     def message_params
